@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Color system (HSL-style variables kept for future flexibility) */
+:root{
+  --bg-900: 220 20% 6%;
+  --fg-100: 0 0% 98%;
+  --muted-900: 220 20% 14%;
+  --muted-700: 220 18% 24%;
+  --card-bg: 220 26% 6%;
+  --border: 220 22% 18%;
+
+  --accent-pink: 330 85% 62%;
+  --accent-green: 150 70% 40%;
+  --accent-blue: 210 80% 60%;
+  --accent-violet: 270 75% 60%;
+  --accent-amber: 40 95% 55%;
+
+  --glass-alpha: 0.6;
+}
+
+/* page base */
+html { color-scheme: dark; }
+body {
+  @apply antialiased;
+  background-color: hsl(var(--bg-900));
+  color: hsl(var(--fg-100));
+}
+
+/* video background helper */
+.video-background {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+.content-overlay { position: relative; z-index: 10; }
+
+/* Muted color utilities */
+:root {
+  --muted-foreground: rgba(203,213,225,0.9); /* tailwind slate-ish */
+}
+
+/* Global text helper classes used by components */
+.text-muted-foreground { color: rgba(203,213,225,0.75); }
+.text-accent-pink { color: hsl(var(--accent-pink)); }
+.text-accent-green { color: hsl(var(--accent-green)); }
+.text-accent-blue { color: hsl(var(--accent-blue)); }
+.text-accent-violet { color: hsl(var(--accent-violet)); }
+.text-accent-amber { color: hsl(var(--accent-amber)); }
+
+/* Card hover lift + border glow effect.
+   Applies to Card wrapper (we kept transition on element). */
+.card-hover {
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+}
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.6), 0 0 30px rgba(124,58,237,0.06);
+  border-color: rgba(124,58,237,0.18); /* slight purple hue on hover */
+}
+.card-glow-outline {
+  position: relative;
+  overflow: visible;
+}
+.card-glow-outline::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-radius: 1rem;
+  box-shadow: 0 2px 20px rgba(124,58,237,0.04);
+}
+
+/* Heading utilities consistent across the dashboard */
+.section-title {
+  font-weight: 700;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.15;
+}
+.section-subtitle {
+  font-size: 0.875rem;
+  color: rgba(203,213,225,0.78);
+}
+
+/* A set of small helpers for the top stat tiles so they
+   match the target's bolded colored titles. */
+.tile-title { font-size: 0.875rem; font-weight: 700; }
+.tile-value { font-size: 1.5rem; font-weight: 800; }
+
+/* layout helpers for the "Quick Actions" grid (optional) */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  gap: 1rem;
+}
+
+/* Custom scrollbars */
+.scrollbar-custom::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar-custom::-webkit-scrollbar-thumb { background: rgba(203,213,225,0.12); border-radius: 9999px; }
+
+/* Small form and control helpers */
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: .5rem .75rem;
+  border-radius: .5rem;
+}
+
+/* Progress bar base for ActiveQuests (if components use simple classes) */
+.progress-track { background: rgba(255,255,255,0.03); height: 8px; border-radius: 9999px; overflow: hidden; }
+.progress-fill { height: 8px; border-radius: 9999px; }
+
+/* Accessibility: ensure focus outlines remain visible */
+:focus { outline: 2px solid rgba(124,58,237,0.2); outline-offset: 2px; }
+
+/* Small responsive adjustments */
+@media (min-width: 768px) {
+  .section-title { font-size: 1.25rem; }
+}
