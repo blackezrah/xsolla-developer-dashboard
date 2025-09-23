@@ -20,7 +20,7 @@ export default function Sidebar() {
       <div className="lg:hidden p-4 border-b border-blue-950/10 flex items-center justify-between bg-black/60 backdrop-blur-md">
         <Sheet>
           <SheetTrigger asChild>
-            <button className="text-blue-500 hover:text-amber-400 transition-colors">
+            <button className="text-blue-500 hover:text-amber-500-400 transition-colors">
               <Menu size={24} />
             </button>
           </SheetTrigger>
