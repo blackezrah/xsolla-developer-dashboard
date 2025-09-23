@@ -1,56 +1,59 @@
+// src/app/settings/page.tsx
+'use client'
+
 export default function SettingsPage() {
   return (
     <div className="p-6">
-      <div className="rounded-xl bg-[rgba(15,23,42,0.7)] shadow-md p-6 space-y-8">
-        {/* Page Header */}
+      <div className="rounded-2xl bg-[rgba(15,23,42,0.7)] shadow-md p-6 space-y-8">
+        {/* Page Title */}
+        <h1 className="text-2xl font-bold text-accent-pink">Settings</h1>
+
+        {/* Visual Customization */}
         <div>
-          <h1 className="text-2xl font-bold text-accent-purple">Settings</h1>
-          <p className="text-muted-foreground">
-            Manage your preferences and dashboard customization.
-          </p>
+          <h2 className="text-lg font-semibold text-accent-blue mb-2">
+            Visual Customization
+          </h2>
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            <li>• Theme options: Light / Dark / High-contrast / Colorblind-friendly</li>
+            <li>• Accent colors: Choose your highlight color</li>
+            <li>• Layout: Compact vs. Spacious mode</li>
+          </ul>
         </div>
 
-        {/* Fake Settings Sections */}
-        <div className="space-y-6">
-          {/* Visual Customization */}
-          <div>
-            <h2 className="text-lg font-semibold text-accent-pink">Visual Customization</h2>
-            <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-              <li>🌙 Theme: Light / Dark / High Contrast</li>
-              <li>🎨 Accent Color: Pink / Blue / Green</li>
-              <li>📐 Layout: Compact / Spacious</li>
-            </ul>
-          </div>
+        {/* Content & Layout */}
+        <div>
+          <h2 className="text-lg font-semibold text-accent-green mb-2">
+            Content & Layout
+          </h2>
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            <li>• Widget control: Add, remove, or rearrange widgets</li>
+            <li>• Custom dashboards for different roles</li>
+            <li>• Collapsible panels for unused sections</li>
+          </ul>
+        </div>
 
-          {/* Content & Layout */}
-          <div>
-            <h2 className="text-lg font-semibold text-accent-green">Content & Layout</h2>
-            <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-              <li>📊 Widget Control: Add/Remove/Rearrange</li>
-              <li>🖥️ Custom Dashboards</li>
-              <li>📁 Collapsible Panels</li>
-            </ul>
-          </div>
+        {/* Notifications & Alerts */}
+        <div>
+          <h2 className="text-lg font-semibold text-accent-amber mb-2">
+            Notifications & Alerts
+          </h2>
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            <li>• Custom alert rules (e.g. API error rate &gt; 2%)</li>
+            <li>• Notification channels: Email, Slack, In-app</li>
+            <li>• Frequency: Real-time vs. Digest</li>
+          </ul>
+        </div>
 
-          {/* Notifications */}
-          <div>
-            <h2 className="text-lg font-semibold text-accent-blue">Notifications & Alerts</h2>
-            <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-              <li>🔔 Custom Alert Rules</li>
-              <li>📩 Notification Channels: Email / Slack</li>
-              <li>⏱️ Frequency: Real-time / Digest</li>
-            </ul>
-          </div>
-
-          {/* Localization */}
-          <div>
-            <h2 className="text-lg font-semibold text-accent-amber">Localization & Accessibility</h2>
-            <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
-              <li>🌍 Language Selection</li>
-              <li>🕒 Timezone & Currency Formatting</li>
-              <li>⌨️ Keyboard Shortcuts</li>
-            </ul>
-          </div>
+        {/* Localization & Accessibility */}
+        <div>
+          <h2 className="text-lg font-semibold text-purple-400 mb-4">
+            Localization & Accessibility
+          </h2>
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            <li>• Language selection</li>
+            <li>• Timezone & currency formatting</li>
+            <li>• Keyboard shortcuts & accessibility options</li>
+          </ul>
         </div>
       </div>
     </div>

@@ -1,92 +1,134 @@
-'use client'
+// src/components/AnalyticsOverview.tsx
+"use client"
 
+import { useState } from "react"
 import {
-  ResponsiveContainer,
   PieChart,
   Pie,
-  Cell,
+  Sector,
   LineChart,
   Line,
   XAxis,
   YAxis,
   Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
   Legend,
-} from 'recharts'
-import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
+} from "recharts"
+import { Card } from "@/components/ui/card"
 
 const pieData = [
-  { name: 'Authentication', value: 400 },
-  { name: 'Analytics', value: 300 },
-  { name: 'Payments', value: 200 },
-  { name: 'User Management', value: 100 },
+  { name: "Authentication", value: 35, fill: "#0ea5e9" }, // cyan
+  { name: "Analytics", value: 25, fill: "#a855f7" }, // purple
+  { name: "Payments", value: 20, fill: "#ef4444" }, // red
+  { name: "User Management", value: 20, fill: "#22c55e" }, // green
 ]
-
-const COLORS = ['#06b6d4', '#a855f7', '#f43f5e', '#22c55e']
 
 const lineData = [
-  { day: 'Mon', value: 6 },
-  { day: 'Tue', value: 9 },
-  { day: 'Wed', value: 12 },
-  { day: 'Thu', value: 8 },
-  { day: 'Fri', value: 10 },
-  { day: 'Sat', value: 7 },
-  { day: 'Sun', value: 6 },
+  { name: "Mon", value: 6 },
+  { name: "Tue", value: 9 },
+  { name: "Wed", value: 12 },
+  { name: "Thu", value: 8 },
+  { name: "Fri", value: 10 },
+  { name: "Sat", value: 11 },
+  { name: "Sun", value: 6 },
 ]
 
+// 🔹 Custom renderer for active slice
+const renderActiveShape = (props: any) => {
+  const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, value } = props
+  const RADIAN = Math.PI / 180
+  const sin = Math.sin(-RADIAN * midAngle)
+  const cos = Math.cos(-RADIAN * midAngle)
+
+  const offset = 6 // subtle movement
+  const sx = cx + offset * cos
+  const sy = cy + offset * sin
+
+  return (
+    <g>
+      {/* glowing active slice */}
+      <Sector
+        cx={sx}
+        cy={sy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius + 4}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+        style={{
+          filter: `drop-shadow(0 0 10px ${fill})`,
+          transition: "all 0.2s ease-out",
+        }}
+      />
+      {/* labels in center */}
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill="#fff" className="text-lg font-semibold">
+        {payload.name}
+      </text>
+      <text x={cx} y={cy + 20} dy={8} textAnchor="middle" fill="#9ca3af" className="text-sm">
+        {value}%
+      </text>
+    </g>
+  )
+}
+
 export default function AnalyticsOverview() {
+  const [activeIndex, setActiveIndex] = useState(0)
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <Card className="card-hover card-glow-outline">
-        <CardHeader>
-          <CardTitle className="section-title text-accent-violet">
-            API Usage Distribution
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={280}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={100}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </CardContent>
+      {/* Pie Chart */}
+      <Card className="p-6 rounded-2xl bg-black/30 border border-purple-500/50 shadow-lg backdrop-blur-md">
+        <h2 className="text-xl font-bold mb-4 text-purple-400">API Usage Distribution</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              activeIndex={activeIndex}
+              activeShape={renderActiveShape}
+              data={pieData}
+              cx="50%"
+              cy="50%"
+              innerRadius={70}
+              outerRadius={100}
+              paddingAngle={3}
+              dataKey="value"
+              onMouseEnter={(_, index) => setActiveIndex(index)}
+            />
+            <Tooltip
+              contentStyle={{ backgroundColor: "#111827", border: "1px solid #374151", color: "#fff" }}
+              itemStyle={{ color: "#fff" }}
+              labelStyle={{ color: "#fff" }}
+            />
+            <Legend wrapperStyle={{ color: "white" }} />
+          </PieChart>
+        </ResponsiveContainer>
       </Card>
 
-      <Card className="card-hover card-glow-outline">
-        <CardHeader>
-          <CardTitle className="section-title text-accent-green">
-            Weekly Trends
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={lineData}>
-              <XAxis dataKey="day" stroke="#888" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="#3b82f6"
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
+      {/* Line Chart */}
+      <Card className="p-6 rounded-2xl bg-black/30 border border-blue-500/50 shadow-lg backdrop-blur-md">
+        <h2 className="text-xl font-bold mb-4 text-blue-400">Weekly Trends</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={lineData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <XAxis dataKey="name" stroke="#9ca3af" />
+            <YAxis stroke="#9ca3af" />
+            <Tooltip
+              contentStyle={{ backgroundColor: "#111827", border: "1px solid #374151", color: "#fff" }}
+              itemStyle={{ color: "#fff" }}
+              labelStyle={{ color: "#fff" }}
+            />
+            <Legend verticalAlign="top" height={36} wrapperStyle={{ color: "white" }} />
+            <Line
+              type="monotone"
+              dataKey="value"
+              name="API Calls"
+              stroke="#3b82f6"
+              strokeWidth={3}
+              dot={{ r: 4, fill: "#3b82f6" }}
+              activeDot={{ r: 7, strokeWidth: 2, fill: "#fff" }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </Card>
     </div>
   )

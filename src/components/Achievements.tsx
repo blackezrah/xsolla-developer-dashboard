@@ -1,41 +1,38 @@
-'use client'
+// src/components/Achievements.tsx
+"use client"
 
-import React from 'react'
-import { Medal } from 'lucide-react'
+import React from "react"
+import { Medal } from "lucide-react"
 
 export default function Achievements() {
   const items = [
     {
-      id: 'a1',
-      title: 'First API Integration',
-      subtitle: 'Completed first successful API integration',
-      xp: '+100 XP',
-      color: 'text-green-400',
-      glow: 'drop-shadow-[0_0_6px_rgba(34,197,94,0.8)]',
+      id: "a1",
+      title: "First API Integration",
+      subtitle: "Completed first successful API integration",
+      xp: "+100 XP",
+      color: "#22c55e", // green
     },
     {
-      id: 'a2',
-      title: 'Event Organizer',
-      subtitle: 'Hosted 5 developer events',
-      xp: '+250 XP',
-      color: 'text-sky-400',
-      glow: 'drop-shadow-[0_0_6px_rgba(56,189,248,0.8)]',
+      id: "a2",
+      title: "Event Organizer",
+      subtitle: "Hosted 5 developer events",
+      xp: "+250 XP",
+      color: "#0ea5e9", // cyan
     },
     {
-      id: 'a3',
-      title: 'Community Builder',
-      subtitle: 'Reached 1000 community members',
-      xp: '+500 XP',
-      color: 'text-pink-400',
-      glow: 'drop-shadow-[0_0_6px_rgba(236,72,153,0.8)]',
+      id: "a3",
+      title: "Community Builder",
+      subtitle: "Reached 1000 community members",
+      xp: "+500 XP",
+      color: "#ec4899", // pink
     },
     {
-      id: 'a4',
-      title: 'Campaign Master',
-      subtitle: 'Run 10 successful campaigns',
-      xp: '+300 XP',
-      color: 'text-yellow-400',
-      glow: 'drop-shadow-[0_0_6px_rgba(250,204,21,0.8)]',
+      id: "a4",
+      title: "Campaign Master",
+      subtitle: "Run 10 successful campaigns",
+      xp: "+300 XP",
+      color: "#facc15", // yellow
     },
   ]
 
@@ -46,19 +43,26 @@ export default function Achievements() {
       </h3>
       <div className="space-y-4">
         {items.map((it) => (
-          <div key={it.id} className="flex items-center justify-between">
+          <div
+            key={it.id}
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] transition"
+          >
+            {/* Left side */}
             <div className="flex items-center gap-3">
-              {/* Glowing Icon */}
               <Medal
-                className={`${it.color} ${it.glow}`}
-                size={22}
+                className="drop-shadow-lg"
+                style={{ color: it.color }}
+                size={20}
               />
               <div>
                 <div className="text-sm text-white font-medium">{it.title}</div>
                 <div className="text-xs text-muted-foreground">{it.subtitle}</div>
               </div>
             </div>
-            <div className="text-sm font-semibold text-emerald-400">{it.xp}</div>
+            {/* XP on right */}
+            <div className="text-sm font-semibold text-emerald-400">
+              {it.xp}
+            </div>
           </div>
         ))}
       </div>
