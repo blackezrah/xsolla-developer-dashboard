@@ -1,29 +1,28 @@
-'use client'
+"use client"
+
+import { useState } from "react"
 
 export default function ActiveQuests() {
-  const quests = [
-    { id: 1, title: 'Complete API Integration', progress: 80 },
-    { id: 2, title: 'Design Campaign Flow', progress: 50 },
-    { id: 3, title: 'Host Community Event', progress: 25 },
-  ]
+  const [quests] = useState([
+    { id: "q1", title: "Integrate API", progress: 70 },
+    { id: "q2", title: "Fix 10 bugs", progress: 40 },
+    { id: "q3", title: "Host community event", progress: 90 },
+  ])
 
   return (
     <div className="space-y-4">
       {quests.map((q) => (
-        <div key={q.id} className="w-full">
-          {/* Quest title */}
-          <div className="flex justify-between text-sm text-white mb-1">
-            <span>{q.title}</span>
-            <span>{q.progress}%</span>
+        <div key={q.id} className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-white">{q.title}</span>
+            <span className="text-muted-foreground">{q.progress}%</span>
           </div>
-
-          {/* Progress bar */}
-          <div className="w-full max-w-full bg-white/5 rounded-md h-2 overflow-hidden">
+          <div className="w-full max-w-full bg-white/5 rounded-full h-2 overflow-hidden">
             <div
-              className="h-2 rounded-md"
+              className="h-2 rounded-full"
               style={{
                 width: `${q.progress}%`,
-                background: 'linear-gradient(90deg,#e11d9e,#7c3aed)',
+                background: "linear-gradient(90deg,#e11d9e,#7c3aed)",
               }}
             />
           </div>
