@@ -1,30 +1,26 @@
-import './globals.css'
-import type { ReactNode } from 'react'
-import VideoBackground from '@/components/VideoBackground'
-import Sidebar from '@/components/Sidebar'
+import "./globals.css"
+import Sidebar from "@/components/Sidebar"
 
 export const metadata = {
-  title: 'Xsolla Developer Dashboard',
-  description: 'Developer dashboard with quests, achievements, and analytics.',
+  title: "Xsolla Developer Dashboard",
+  description: "Gamified developer dashboard built with Next.js",
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="relative min-h-screen font-sans antialiased">
-        {/* Video Background */}
-        <VideoBackground
-          videoUrl="https://res.cloudinary.com/dwrdmqonu/video/upload/v1758080802/12900822_1920_1080_30fps_ftneoi.mp4"
-          fallbackImage="/xsollalogo.PNG"
-        />
-
+    <html lang="en">
+      <body className="bg-gradient-to-br from-gray-900 via-black to-gray-950 text-white">
         {/* Sidebar */}
         <Sidebar />
 
-        {/* Main Content (offset for sidebar width) */}
-        <div className="ml-64 relative z-10 p-8">
+        {/* Main content area */}
+        <main className="min-h-screen transition-all lg:pl-64 p-6">
           {children}
-        </div>
+        </main>
       </body>
     </html>
   )
