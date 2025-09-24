@@ -1,11 +1,10 @@
-// src/app/layout.tsx
 import "./globals.css"
 import Sidebar from "@/components/Sidebar"
 import VideoBackground from "@/components/VideoBackground"
 
 export const metadata = {
   title: "Xsolla Developer Dashboard",
-  description: "Developer Dashboard built with Next.js and Tailwind",
+  description: "Responsive developer dashboard",
 }
 
 export default function RootLayout({
@@ -15,8 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gradient-to-br from-gray-900 via-black to-gray-950 text-white relative">
-        {/* Video Background */}
+      <body className="relative text-white">
+        {/* Video background */}
         <VideoBackground />
 
         {/* Sidebar */}
