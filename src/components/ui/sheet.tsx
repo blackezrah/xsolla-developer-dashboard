@@ -1,12 +1,13 @@
-'use client'
+"use client"
 
-import * as React from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
+import * as React from "react"
+import * as Dialog from "@radix-ui/react-dialog"
+import { cn } from "@/lib/utils"
 
 interface SheetProps {
   children: React.ReactNode
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 export function Sheet({ children, open, onOpenChange }: SheetProps) {
@@ -17,34 +18,34 @@ export function Sheet({ children, open, onOpenChange }: SheetProps) {
   )
 }
 
-interface SheetTriggerProps {
-  children: React.ReactElement
-  asChild?: boolean
-}
-
-export function SheetTrigger({ children, asChild = false }: SheetTriggerProps) {
-  return <Dialog.Trigger asChild={asChild}>{children}</Dialog.Trigger>
-}
-
-interface SheetContentProps {
-  children: React.ReactNode
-  side?: 'left' | 'right'
-  className?: string
-}
+export const SheetTrigger = Dialog.Trigger
 
 export function SheetContent({
+  className,
+  side = "left",
   children,
-  side = 'left',
-  className = '',
-}: SheetContentProps) {
+}: {
+  className?: string
+  side?: "left" | "right" | "top" | "bottom"
+  children: React.ReactNode
+}) {
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
       <Dialog.Content
-        className={`fixed top-0 ${side}-0 h-full w-64 bg-[rgba(15,23,42,0.95)] shadow-lg z-50 p-6 ${className}`}
+        className={cn(
+          "fixed z-50 bg-black text-white shadow-xl p-6",
+          side === "left" && "inset-y-0 left-0 w-64 animate-slide-in-left",
+          side === "right" && "inset-y-0 right-0 w-64 animate-slide-in-right",
+          side === "top" && "inset-x-0 top-0 h-64 animate-slide-in-top",
+          side === "bottom" && "inset-x-0 bottom-0 h-64 animate-slide-in-bottom",
+          className
+        )}
       >
         {children}
       </Dialog.Content>
     </Dialog.Portal>
   )
 }
+
+export const SheetClose = Dialog.Close

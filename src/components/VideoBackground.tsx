@@ -1,30 +1,16 @@
-'use client'
-
-interface VideoBackgroundProps {
-  videoUrl: string
-  fallbackImage: string
-}
-
-export default function VideoBackground({ videoUrl, fallbackImage }: VideoBackgroundProps) {
+// src/components/VideoBackground.tsx
+export default function VideoBackground() {
   return (
-    <div className="fixed inset-0 w-full h-full -z-10">
+    <div className="absolute inset-0 -z-10 overflow-hidden">
       <video
-        key={videoUrl}
-        className="w-full h-full object-cover"
-        src={videoUrl}
         autoPlay
         loop
         muted
         playsInline
+        className="w-full h-full object-cover"
+        src="/background.mp4" // ✅ matches the file you added
       />
-      {/* Fallback image (if video fails) */}
-      <noscript>
-        <img
-          src={fallbackImage}
-          alt="Background fallback"
-          className="w-full h-full object-cover"
-        />
-      </noscript>
+      <div className="absolute inset-0 bg-black/50" /> {/* dark overlay for readability */}
     </div>
   )
 }
