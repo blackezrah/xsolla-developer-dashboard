@@ -1,4 +1,5 @@
-import { CampaignSimulatorModule } from "@/components/CampaignSimulator"
+// src/app/campaign-simulator/page.tsx
+import CampaignSimulatorModule from "@/components/CampaignSimulator"
 
 export default function CampaignSimulatorPage() {
   return (

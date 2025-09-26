@@ -1,16 +1,27 @@
+// src/components/ui/sheet.tsx
 "use client"
 
 import * as React from "react"
 import * as Dialog from "@radix-ui/react-dialog"
-import { cn } from "@/lib/utils"
 
-interface SheetProps {
+/**
+ * Minimal Sheet (drawer) wrapper using Radix Dialog.
+ * Exports:
+ * - Sheet: wrapper root (<Dialog.Root>)
+ * - SheetTrigger: Dialog.Trigger (use asChild if you pass a button)
+ * - SheetContent: portal + content anchored to left (usable for mobile)
+ *
+ * This file intentionally keeps typings loose so it's easy to use in different contexts.
+ */
+
+type SheetProps = {
   children: React.ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }
 
 export function Sheet({ children, open, onOpenChange }: SheetProps) {
+  // pass through open and onOpenChange (so page can control it if desired)
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       {children}
@@ -18,34 +29,28 @@ export function Sheet({ children, open, onOpenChange }: SheetProps) {
   )
 }
 
-export const SheetTrigger = Dialog.Trigger
+// Use as: <SheetTrigger asChild><button>...</button></SheetTrigger>
+export const SheetTrigger: React.FC<any> = (props) => {
+  return <Dialog.Trigger {...props} />
+}
 
-export function SheetContent({
-  className,
-  side = "left",
-  children,
-}: {
-  className?: string
-  side?: "left" | "right" | "top" | "bottom"
+// A default left-side drawer content
+export const SheetContent: React.FC<{
   children: React.ReactNode
-}) {
+  side?: "left" | "right"
+  className?: string
+}> = ({ children, side = "left", className = "" }) => {
+  const sideClass = side === "left" ? "left-0" : "right-0"
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
       <Dialog.Content
-        className={cn(
-          "fixed z-50 bg-black text-white shadow-xl p-6",
-          side === "left" && "inset-y-0 left-0 w-64 animate-slide-in-left",
-          side === "right" && "inset-y-0 right-0 w-64 animate-slide-in-right",
-          side === "top" && "inset-x-0 top-0 h-64 animate-slide-in-top",
-          side === "bottom" && "inset-x-0 bottom-0 h-64 animate-slide-in-bottom",
-          className
-        )}
+        className={`fixed top-0 bottom-0 ${sideClass} z-50 w-64 sm:w-80 p-6 bg-black/80 border-l border-white/5 ${className}`}
+        aria-label="Sidebar"
       >
         {children}
+        <Dialog.Close className="sr-only">Close</Dialog.Close>
       </Dialog.Content>
     </Dialog.Portal>
   )
 }
-
-export const SheetClose = Dialog.Close

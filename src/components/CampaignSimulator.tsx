@@ -1,3 +1,4 @@
+// src/components/CampaignSimulator.tsx
 "use client"
 
 import { useState } from "react"
@@ -7,8 +8,28 @@ import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts"
-import { Play, RotateCcw, Save, TrendingUp, DollarSign, Users, Target, Zap, AlertTriangle } from "lucide-react"
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+} from "recharts"
+import {
+  Play,
+  RotateCcw,
+  Save,
+  TrendingUp,
+  DollarSign,
+  Users,
+  Target,
+  Zap,
+  AlertTriangle,
+} from "lucide-react"
 
 interface SimulationParams {
   budget: number
@@ -96,7 +117,7 @@ const regionMultipliers = {
   latam: { reach: 1.1, conversion: 0.9, cost: 0.7 },
 }
 
-export function CampaignSimulatorModule() {
+export default function CampaignSimulatorModule() {
   const [params, setParams] = useState<SimulationParams>(defaultParams)
   const [results, setResults] = useState<SimulationResults | null>(null)
   const [isSimulating, setIsSimulating] = useState(false)
@@ -107,7 +128,6 @@ export function CampaignSimulatorModule() {
   const calculateResults = (simulationParams: SimulationParams): SimulationResults => {
     const { budget, duration, channels, regions } = simulationParams
 
-    // Calculate channel breakdown
     const channelBreakdown = Object.entries(channels).map(([channel, percentage]) => {
       const channelBudget = (budget * percentage) / 100
       const efficiency = channelEfficiency[channel as keyof typeof channelEfficiency]
@@ -116,7 +136,6 @@ export function CampaignSimulatorModule() {
       const baseConversions = baseReach * efficiency.conversion
       const cost = channelBudget
 
-      // Apply regional multipliers
       const regionAdjustedReach =
         baseReach *
         Object.entries(regions).reduce((acc, [region, regionPercentage]) => {
@@ -142,10 +161,9 @@ export function CampaignSimulatorModule() {
 
     const totalReach = channelBreakdown.reduce((sum, channel) => sum + channel.reach, 0)
     const totalConversions = channelBreakdown.reduce((sum, channel) => sum + channel.conversions, 0)
-    const costPerConversion = budget / totalConversions
-    const roi = (totalConversions * 150 - budget) / budget // Assuming $150 LTV per conversion
+    const costPerConversion = budget / (totalConversions || 1)
+    const roi = (totalConversions * 150 - budget) / (budget || 1)
 
-    // Generate timeline
     const timeline = Array.from({ length: duration }, (_, i) => {
       const week = `Week ${i + 1}`
       const progressFactor = (i + 1) / duration
@@ -156,18 +174,15 @@ export function CampaignSimulatorModule() {
       return { week, reach, conversions, engagement }
     })
 
-    // Calculate engagement score
     const engagementScore = Math.round(
-      (totalConversions / totalReach) * 1000 + (roi > 0 ? 20 : -10) + (duration > 8 ? 10 : -5),
+      (totalConversions / Math.max(totalReach, 1)) * 1000 + (roi > 0 ? 20 : -10) + (duration > 8 ? 10 : -5),
     )
 
-    // Determine risk level
     let riskLevel = "Low"
     if (costPerConversion > 200) riskLevel = "High"
     else if (costPerConversion > 100) riskLevel = "Medium"
 
-    // Generate recommendations
-    const recommendations = []
+    const recommendations: string[] = []
     if (costPerConversion > 150) {
       recommendations.push("Consider increasing email and content marketing allocation for better cost efficiency")
     }
@@ -196,7 +211,7 @@ export function CampaignSimulatorModule() {
 
   const runSimulation = async () => {
     setIsSimulating(true)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 1500))
     const simulationResults = calculateResults(params)
     setResults(simulationResults)
     setIsSimulating(false)
@@ -369,7 +384,7 @@ export function CampaignSimulatorModule() {
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-center space-x-4">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
                   <div>
                     <h3 className="font-semibold">Running Simulation...</h3>
                     <p className="text-sm text-muted-foreground">
@@ -445,8 +460,8 @@ export function CampaignSimulatorModule() {
                         results.riskLevel === "Low"
                           ? "default"
                           : results.riskLevel === "Medium"
-                            ? "secondary"
-                            : "destructive"
+                          ? "secondary"
+                          : "destructive"
                       }
                     >
                       {results.riskLevel} Risk
@@ -459,7 +474,7 @@ export function CampaignSimulatorModule() {
                   <div className="space-y-2">
                     {results.recommendations.map((rec, index) => (
                       <div key={index} className="flex items-start gap-2 text-sm">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
                         <span>{rec}</span>
                       </div>
                     ))}
