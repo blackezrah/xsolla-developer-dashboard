@@ -24,12 +24,12 @@ export default function Sidebar() {
       {/* Mobile top bar */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black/70 backdrop-blur-md p-4 border-b border-border/20">
         <Image
-          src="/logo.png"
-          alt="XSOLLA Logo"
-          width={120}
-          height={40}
-          className="h-8 w-auto object-contain"
-        />
+  src="/logo.png"
+  alt="XSOLLA Logo"
+  width={120}
+  height={40}
+  className="h-8 w-auto object-contain"
+/>
         <Sheet>
           <SheetTrigger asChild>
             <button className="text-pink-500 hover:text-pink-400 transition">
@@ -58,12 +58,12 @@ export default function Sidebar() {
       <aside className="hidden lg:flex fixed top-0 left-0 h-full w-64 flex-col bg-black/80 backdrop-blur-xl z-40">
         <div className="p-6">
           <Image
-            src="/logo.png"
-            alt="XSOLLA Logo"
-            width={200}
-            height={60}
-            className="w-full h-auto object-contain"
-          />
+  src="/logo.png"
+  alt="XSOLLA Logo"
+  width={200}
+  height={60}
+  className="w-full h-auto object-contain"
+/>
         </div>
         <nav className="flex-1 overflow-y-auto p-4 space-y-2">
           {navItems.map((item) => (
