@@ -1,85 +1,48 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
-import { supabase } from '@/lib/supabaseClient'
+import { useState, useEffect } from 'react'
+import { Card, CardHeader, CardContent } from '@/components/ui/card'
 
-export default function XPProgress({ userId }: { userId?: string }) {
-  const [xp, setXp] = useState<number | null>(null)
-  const [level, setLevel] = useState<number | null>(null)
-  const [maxXp, setMaxXp] = useState<number | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [errorMsg, setErrorMsg] = useState<string | null>(null)
-
-  useEffect(() => {
-    let mounted = true
-    const fetch = async () => {
-      setLoading(true)
-      setErrorMsg(null)
-      try {
-        const { data } = await supabase.auth.getUser()
-        const id = userId ?? data?.user?.id
-        if (!id) {
-          setErrorMsg('No authenticated user')
-          setLoading(false)
-          return
-        }
-        const { data: profile, error } = await supabase
-          .from('profiles')
-          .select('xp, level, max_xp')
-          .eq('id', id)
-          .maybeSingle()
-        if (error) {
-          setErrorMsg(error.message)
-          setLoading(false)
-          return
-        }
-        setXp(profile?.xp ?? 0)
-        setLevel(profile?.level ?? 1)
-        setMaxXp(profile?.max_xp ?? null)
-      } catch (err: any) {
-        setErrorMsg(err?.message ?? String(err))
-      } finally {
-        if (mounted) setLoading(false)
-      }
-    }
-    fetch()
-    return () => {
-      mounted = false
-    }
-  }, [userId])
-
-  const xpForNextLevel = maxXp ?? (level ?? 1) * 1000
-  const progress =
-    xpForNextLevel > 0 ? Math.min(((xp ?? 0) / xpForNextLevel) * 100, 100) : 0
+export default function XPProgressTest() {
+  const [progressPercent, setProgressPercent] = useState(45) // Test value 45%
 
   return (
-    <Card className="card-hover card-glow-outline">
+    <Card className="card-hover card-glow-outline p-6">
       <CardHeader>
-        <CardTitle className="section-title text-accent-blue">
-          XP Progress (Last 7 Days)
-        </CardTitle>
-      </CardHeader>
+  <h2 className="section-title text-pink-500 font-bold text-lg mb-4">
+    XP Progress (Last 7 Days)
+  </h2>
+</CardHeader>
+
       <CardContent>
-        {loading ? (
-          <div className="text-muted-foreground">Loading XP…</div>
-        ) : (
-          <>
-            {errorMsg && (
-              <div className="text-rose-400 text-sm mb-2">
-                Unable to load profile: {errorMsg}
-              </div>
-            )}
-            <div className="flex justify-between text-sm text-white mb-2">
-              <span>Level {level}</span>
-              <span>
-                {xp} / {xpForNextLevel} XP
-              </span>
-            </div>
-            <Progress value={progress} />
-          </>
-        )}
+        <div style={{ display: 'flex', justifyContent: 'space-between', color: 'white', marginBottom: '8px', fontSize: '0.875rem' }}>
+          <span>Level 3</span>
+          <span>450 / 1000 XP</span>
+        </div>
+
+        <div
+          style={{
+            width: '100%',
+            height: '32px', // taller so it doesn't collapse
+            borderRadius: '16px',
+            backgroundColor: '#111',
+            border: '1px solid #444',
+            overflow: 'hidden',
+            position: 'relative',
+          }}
+        >
+          <div
+            style={{
+              width: `${progressPercent}%`,
+              height: '100%',
+              background: 'linear-gradient(90deg, #f472b6, #a78bfa)', // pink → purple
+              transition: 'width 0.5s ease-in-out',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+            }}
+          />
+        </div>
       </CardContent>
     </Card>
   )

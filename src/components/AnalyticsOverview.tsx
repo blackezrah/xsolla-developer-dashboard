@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Users, DollarSign, Activity } from "lucide-react"
+import { Card, CardContent } from '@/components/ui/card'
+import { Users, DollarSign, Activity } from 'lucide-react'
 
 export default function Overview() {
   const stats = [
-    { name: "Active Users", value: "12,345", icon: Users },
-    { name: "Revenue", value: "$45,678", icon: DollarSign },
-    { name: "Engagement", value: "76%", icon: Activity },
+    { name: 'Active Users', value: '12,345', icon: Users },
+    { name: 'Revenue', value: '$45,678', icon: DollarSign },
+    { name: 'Engagement', value: '76%', icon: Activity },
   ]
 
   return (
